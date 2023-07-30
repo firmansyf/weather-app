@@ -5,7 +5,7 @@ export default function TourPage() {
   const tour = [
     {
       target: ".my-first-step",
-      content: "You can find anything location",
+      content: "Find the accurate location then enter",
       disableBeacon: true, // This makes the tour to start automatically without clicking
       hideCloseButton: true,
     },

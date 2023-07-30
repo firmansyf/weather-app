@@ -12,6 +12,7 @@ const App = () => {
   const [data, setData] = useState(null);
   const [isLocation, setIsLocation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(false);
   const img = [
     { value: "Rain", url: rain },
     { value: "Clear", url: clear },
@@ -27,7 +28,13 @@ const App = () => {
           setData(res);
           setTimeout(() => setLoading(false), 1000);
         })
-        .catch(() => "");
+        .catch(({ response }) => {
+          if (response.data?.message !== "") {
+            alert("No Data Result");
+            setLoading(false);
+            setMessage(true);
+          }
+        });
       setIsLocation("");
     }
   };
@@ -52,10 +59,12 @@ const App = () => {
         {data !== null ? (
           <>
             {loading ? (
-              <div className="d-flex mt-4 align-items-center">
-                <span className="spinner-border spinner-border-sm me-1"></span>
-                <span>Please wait...</span>
-              </div>
+              <>
+                <div className="d-flex mt-4 align-items-center">
+                  <span className="spinner-border spinner-border-sm me-1"></span>
+                  <span>Please wait...</span>
+                </div>
+              </>
             ) : (
               <div className="d-flex flex-column">
                 <div>
@@ -134,7 +143,9 @@ const App = () => {
               alt="no-data"
               style={{ width: 250 }}
             />
-            <span className="text-muted">No Data.</span>
+            <span className="text-muted">
+              {message ? "No Data Result" : "No Data"}
+            </span>
           </div>
         )}
       </div>
